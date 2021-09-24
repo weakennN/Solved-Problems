@@ -115,6 +115,32 @@ public class ArrayDeque<E> {
         return this.poll();
     }
 
+    public E remove(int index) {
+        this.checkIndex(index);
+        int realIndex = this.tail + index;
+        E element = this.castElement(realIndex);
+        this.elements[realIndex] = null;
+        this.removeShift(realIndex);
+        this.size--;
+
+        return element;
+    }
+
+    public E removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        E element = castElement(this.tail);
+        this.elements[this.tail] = null;
+        if (this.tail != this.head) {
+            this.tail++;
+        }
+        this.size--;
+
+        return element;
+    }
+
     public E removeLast() {
         return this.poll();
     }
@@ -132,6 +158,7 @@ public class ArrayDeque<E> {
         if (index >= this.size / 2) {
             realIndex = (this.tail - 1) + index;
             this.shiftLeft(realIndex);
+
         } else {
             realIndex = this.tail + index;
             this.shiftRight(realIndex);
@@ -168,5 +195,13 @@ public class ArrayDeque<E> {
     @SuppressWarnings("unchecked")
     private E castElement(int index) {
         return (E) this.elements[index];
+    }
+
+    private void removeShift(int index) {
+        for (int i = index; i < this.head; i++) {
+            this.elements[i] = this.elements[i + 1];
+        }
+
+        this.elements[this.head--] = null;
     }
 }

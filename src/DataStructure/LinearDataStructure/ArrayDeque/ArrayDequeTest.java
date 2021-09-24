@@ -11,10 +11,6 @@ public class ArrayDequeTest {
             arrayDeque.add(i);
         }
 
-        for (int i = 0; i < arrayDeque.size(); i++) {
-            System.out.println(arrayDeque.get(i));
-        }
-
-        System.out.println(arrayDeque.peek());
+        arrayDeque.remove(7);
     }
 }
