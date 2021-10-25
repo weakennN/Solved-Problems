@@ -14,7 +14,7 @@ public class TreeTest {
                                 new Tree<>(23),
                                 new Tree<Integer>(6))
                 );
-        tree.remove(6, 7);
+        tree.remove( 7);
         tree.bfs();
     }
 }

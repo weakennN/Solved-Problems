@@ -1,4 +1,4 @@
-package ArraysLab;
+package JavaFundamentals.ArraysExercise;
 
 import java.util.Scanner;
 

@@ -1,20 +1,18 @@
-package JavaFundamentals.ArraysExercise;
+package JavaFundamentals.ArraysLab;
 
 import java.util.Scanner;
 
-public class Train {
+public class NumbersInReversOrder {
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int n = Integer.parseInt(scan.nextLine());
-        int[] numbers = new int[n];
-        int sum = 0;
-        for (int i = 0; i < n; i++) {
+        int [] numbers = new int[n];
+        for(int i = 0;i < numbers.length;i++){
             numbers[i] = Integer.parseInt(scan.nextLine());
-            sum += numbers[i];
+        }
+        for(int i = numbers.length - 1;i >= 0;i--){
             System.out.print(numbers[i] + " ");
         }
-        System.out.println();
-        System.out.println(sum);
-
     }
 }
