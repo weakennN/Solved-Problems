@@ -1,10 +1,10 @@
-package AssociativeArrays;
+package JavaFundamentals.MapsLambdaAndStreamAPIExercise;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class CountCharsinaString {
+public class CountCharsInAString {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);

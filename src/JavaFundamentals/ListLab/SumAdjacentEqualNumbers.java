@@ -1,4 +1,4 @@
-package Lists;
+package JavaFundamentals.ListLab;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;

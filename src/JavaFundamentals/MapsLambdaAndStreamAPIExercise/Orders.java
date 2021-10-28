@@ -1,4 +1,4 @@
-package AssociativeArrays;
+package JavaFundamentals.MapsLambdaAndStreamAPIExercise;
 
 import java.util.*;
 
@@ -31,15 +31,6 @@ public class Orders {
             }
             com = scan.nextLine();
         }
-
-     /*   for (Map.Entry<String, List<Double>> entry : orders.entrySet()) {
-            List<Double> a = entry.getValue();
-            for (int i = 0; i < a.size(); i++) {
-                a.remove(1);
-            }
-        }
-
-      */
 
         for (Map.Entry<String, List<Double>> entry : orders.entrySet()) {
             List<Double> a = entry.getValue();
