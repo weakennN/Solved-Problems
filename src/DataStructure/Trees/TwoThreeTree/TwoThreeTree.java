@@ -24,7 +24,9 @@ public class TwoThreeTree<E extends Comparable<E>> {
     }
 
     private Node<E> recursiveInsert(Node<E> node, E element) {
-        if (node.isLeaf() && node.getSecondKey() == null) {
+        if (node == null) {
+            return new Node<>(element);
+        } else if (node.isLeaf() && node.getSecondKey() == null) {
             node.insertKey(element);
             return node;
         } else if (node.isLeaf() && node.getFirstKey() != null
@@ -76,14 +78,16 @@ public class TwoThreeTree<E extends Comparable<E>> {
                 node.removeElement(element);
             } else {
                 Node<E> temp;
-                if (node.getFirstKey().compareTo(element) == 0 || node.getSecondKey() == null) {
+                if (node.getFirstKey().compareTo(element) == 0) {
                     Node<E> inorderPredecessor = this.getInorderPredecessor(node);
-                    node.setFirstKey(inorderPredecessor.getFirstKey());
-                    temp = this.recursiveRemove(node.getLeft(), inorderPredecessor.getFirstKey());
+                    E replace = this.getSuccessorElement(inorderPredecessor);
+                    node.setFirstKey(replace);
+                    temp = this.recursiveRemove(node.getLeft(), replace);
                 } else {
                     Node<E> inorderSuccessor = this.getInorderSuccessor(node);
-                    node.setSecondKey(inorderSuccessor.getFirstKey());
-                    temp = this.recursiveRemove(node.getMiddle(), inorderSuccessor.getFirstKey());
+                    E replace = this.getSuccessorElement(inorderSuccessor);
+                    node.setSecondKey(replace);
+                    temp = this.recursiveRemove(node.getMiddle(), replace);
                 }
 
                 if (temp.isEmpty()) {
@@ -206,7 +210,7 @@ public class TwoThreeTree<E extends Comparable<E>> {
             return true;
         } else {
             // try to borrow from left or right for mid
-            if (first.getSecondKey() != null && first.getRight().getSecondKey() != null) {
+            if (first.getSecondKey() != null && first.getRight().getSecondKey() != null && first.getMiddle() == second) {
                 // borrow from right
                 E promoted = first.getRight().getFirstKey();
                 first.getRight().removeElement(first.getRight().getFirstKey());
@@ -219,7 +223,7 @@ public class TwoThreeTree<E extends Comparable<E>> {
                 second.setMiddle(replace);
 
                 return true;
-            } else if (first.getLeft().getSecondKey() != null) {
+            } else if (first.getLeft().getSecondKey() != null && first.getMiddle() == second) {
                 // borrow from left
                 E promoted = first.getLeft().getSecondKey();
                 first.getLeft().setSecondKey(null);
@@ -244,6 +248,9 @@ public class TwoThreeTree<E extends Comparable<E>> {
             E demoted = first.getSecondKey();
             first.setSecondKey(null);
             first.getMiddle().insertKey(demoted);
+            if (!second.isLeaf()) {
+                first.getMiddle().setRight(second.getLeft());
+            }
         } else if (first.getLeft() == second) {
             E demoted = first.getFirstKey();
             if (first.getSecondKey() != null) {
@@ -252,6 +259,11 @@ public class TwoThreeTree<E extends Comparable<E>> {
                 first.setLeft(first.getMiddle());
                 first.setMiddle(first.getRight());
                 first.setRight(null);
+                if (!second.isLeaf()) {
+                    first.getLeft().setRight(first.getLeft().getMiddle());
+                    first.getLeft().setMiddle(first.getLeft().getLeft());
+                    first.getLeft().setLeft(second.getLeft());
+                }
             } else {
                 if (!second.isLeaf()) {
                     first.setFirstKey(null);
@@ -326,6 +338,14 @@ public class TwoThreeTree<E extends Comparable<E>> {
         }
 
         return current;
+    }
+
+    private E getSuccessorElement(Node<E> successor) {
+        if (successor.getSecondKey() != null) {
+            return successor.getSecondKey();
+        }
+
+        return successor.getFirstKey();
     }
 
     public Node<E> getRoot() {
